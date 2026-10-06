@@ -8,8 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Detect which page we're on
     const path = window.location.pathname;
-    const isContact = path.endsWith("contact.html");
-    const isAbout = path.endsWith("about.html");
+    const page = path.replace(/\/+$/, "").split("/").pop().replace(/\.html$/, "");
+    const isContact = page === "contact";
+    const isAbout = page === "about";
 
     if (isContact) {
         mainContainer.appendChild(createContactSection());
@@ -32,8 +33,8 @@ function createNav() {
     navUl.className = "msr_nav_links";
     [
         { text: "Home", href: "./" },
-        { text: "About", href: "./about" },
-        { text: "Contact", href: "./contact" },
+        { text: "About", href: "./about.html" },
+        { text: "Contact", href: "./contact.html" },
         { text: "Download Resume", href: "assets/resume/MandeepSinghResume.pdf", download: true, liClass: "msr_resume_link" }
     ].forEach(link => {
         const li = document.createElement("li");
@@ -199,7 +200,7 @@ function createAboutSection() {
     aboutContainer.appendChild(h2);
     const aboutP = document.createElement("p");
     aboutP.className = "msr_secondary_education_content";
-    aboutP.innerHTML = `<span>I</span> come from a non-IT background but have\n        successfully built a career in the tech industry as a PHP Full Stack Developer. Currently, I&apos;m\n        working at <a class=\"msr_link\" href=\"https://www.coolplugins.net/\" target=\"_blank\">CoolPlugins</a>, where I focus on developing custom plugins and solutions for WordPress. I\n        have strong skills in PHP, MySQL, HTML, CSS, and JavaScript, and I&apos;m also exploring React to expand\n        my front-end capabilities. My journey into IT reflects my dedication to continuous learning and a\n        passion for creating efficient, user-friendly web tools.`;
+    aboutP.innerHTML = `<span>I</span> come from a non-IT background but have\nsuccessfully built a career in the tech industry as a PHP Full Stack Developer. Currently, I&apos;m\n        working at <a class=\"msr_link\" href=\"https://www.coolplugins.net/\" target=\"_blank\">CoolPlugins</a>, where I focus on developing custom plugins and solutions for WordPress. I\n        have strong skills in PHP, MySQL, HTML, CSS, and JavaScript, and I&apos;m also exploring React to expand\n        my front-end capabilities. My journey into IT reflects my dedication to continuous learning and a\n        passion for creating efficient, user-friendly web tools.`;
     aboutContainer.appendChild(aboutP);
     aboutDiv.appendChild(aboutContainer);
     // Main Education Container
