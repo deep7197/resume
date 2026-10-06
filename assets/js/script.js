@@ -2,13 +2,13 @@
 
 const PROFILE = {
     name: "Mandeep Singh",
-    role: "WordPress Plugin Developer | PHP Developer",
+    role: "WordPress Plugin Developer | PHP Web Developer",
     location: "Rajpura, Punjab",
     phone: "+91 7814030215",
     email: "deep7197@gmail.com",
     linkedin: "https://www.linkedin.com/in/mandeep-singh-50b52430a/",
     github: "https://github.com/deep7197",
-    summary: "I'm a WordPress and PHP developer with experience building custom plugins, Elementor widgets, Divi modules, Gutenberg blocks, REST APIs, and web applications. I enjoy solving complex problems, learning new technologies, and building scalable, user-friendly applications.",
+    summary: "I'm a WordPress and PHP Web Developer with experience building custom plugins, Elementor widgets, Divi modules, Gutenberg blocks, REST APIs, and web applications. I enjoy solving complex problems, learning new technologies, and building scalable, user-friendly applications.",
     resume: "assets/resume/MandeepSinghResume.pdf"
 };
 
@@ -61,12 +61,12 @@ const SKILLS = [
     { group: "Backend", items: ["PHP", "Laravel", "CodeIgniter", "MySQL", "REST API Integration", "Plugin/Theme Architecture"] },
     { group: "WordPress", items: ["WordPress Development", "Elementor", "Divi", "Gutenberg"] },
     { group: "Frontend", items: ["JavaScript", "jQuery", "React JS", "TypeScript", "NextJS", "Bootstrap", "Tailwind", "HTML", "CSS", "SCSS"] },
-    { group: "Automation and AI", items: ["N8N", "MCP", "Zapier", "Prompt Engineering", "Python (Basic)"] },
+    { group: "Automation and AI", items: ["N8N", "MCP", "Zapier", "Prompt Engineering", "Python (Basic)", "Claude Code Cli", "Codex"] },
     { group: "Other", items: ["Shopify (Basic)", "Debugging & Troubleshooting", "Support Agent"] }
 ];
 
 const EDUCATION = [
-    { name: "B.Com", detail: "Punjabi University, Patiala", period: "08/2015 - 05/2018" },
+    { name: "B.Com", detail: "Punjabi University, Patiala" },
     { name: "10+2", detail: "PSEB" },
     { name: "10th", detail: "PSEB" }
 ];
@@ -323,7 +323,8 @@ function createAboutSection() {
     const p = el("p", "msr_lead");
     p.appendChild(document.createTextNode("I started in commerce, with a B.Com, and taught myself into web development through a six-month PHP Full Stack program. Since then I've built WordPress plugins at "));
     p.appendChild(link("https://www.coolplugins.net/", "CoolPlugins", "msr_link", true));
-    p.appendChild(document.createTextNode(" and backend APIs for AI products at Erginous Technologies."));
+    p.appendChild(document.createTextNode(" and backend APIs for AI products at "));
+    p.appendChild(link("https://erginous.com/", "Erginous Technologies.", "msr_link", true));
     intro.appendChild(p);
     intro.appendChild(el("p", "msr_muted msr_lead_sub", "I work mostly in PHP, WordPress and JavaScript, and I like clean, reusable code that stays fast as a project grows. I enjoy tracing a hard bug to its cause and picking up new tools, from React and TypeScript to AI integrations and automation."));
     wrap.appendChild(intro);

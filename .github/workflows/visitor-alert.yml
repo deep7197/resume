@@ -1,0 +1,75 @@
+name: Visitor alert
+
+# Checks the repo's traffic once a day. If anyone viewed the repo yesterday,
+# it opens an issue that mentions the owner, and GitHub emails the owner.
+on:
+  schedule:
+    - cron: "30 3 * * *"   # 03:30 UTC every day
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  check-traffic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Look for visitors and open an issue
+        env:
+          # Traffic data needs a personal access token (the built-in token cannot read it).
+          TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+          ISSUE_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${TRAFFIC_TOKEN}" ]; then
+            echo "::error::Secret TRAFFIC_TOKEN is missing. Add it under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+          day=$(date -u -d "yesterday" +%F)
+
+          views=$(GH_TOKEN="$TRAFFIC_TOKEN" gh api "repos/$REPO/traffic/views")
+          count=$(echo "$views"   | jq --arg d "$day" '[.views[] | select(.timestamp | startswith($d))] | map(.count)   | add // 0')
+          uniques=$(echo "$views" | jq --arg d "$day" '[.views[] | select(.timestamp | startswith($d))] | map(.uniques) | add // 0')
+
+          echo "Views on $day: $count (unique: $uniques)"
+          if [ "$count" -eq 0 ]; then
+            echo "No visitors yesterday, nothing to report."
+            exit 0
+          fi
+
+          title="Repo visitors on $day"
+
+          # Do not open the same alert twice if the job is re-run
+          existing=$(GH_TOKEN="$ISSUE_TOKEN" gh issue list --repo "$REPO" --state all \
+            --search "\"$title\" in:title" --json title --jq "[.[] | select(.title == \"$title\")] | length")
+          if [ "$existing" -gt 0 ]; then
+            echo "Issue already exists for $day."
+            exit 0
+          fi
+
+          referrers=$(GH_TOKEN="$TRAFFIC_TOKEN" gh api "repos/$REPO/traffic/popular/referrers" \
+            --jq '.[] | "- \(.referrer): \(.count) views (\(.uniques) unique)"' || true)
+          paths=$(GH_TOKEN="$TRAFFIC_TOKEN" gh api "repos/$REPO/traffic/popular/paths" \
+            --jq '.[:5][] | "- \(.path): \(.count) views"' || true)
+
+          body=$(cat <<EOF
+          @$OWNER someone visited \`$REPO\` on **$day**.
+
+          - Views: **$count**
+          - Unique visitors: **$uniques**
+
+          **Top sources (last 14 days)**
+          ${referrers:-none}
+
+          **Top pages (last 14 days)**
+          ${paths:-none}
+
+          _GitHub counts your own visits too. Opened automatically by the Visitor alert workflow._
+          EOF
+          )
+
+          GH_TOKEN="$ISSUE_TOKEN" gh issue create --repo "$REPO" --title "$title" --body "$body"
