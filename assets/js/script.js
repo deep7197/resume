@@ -2,13 +2,13 @@
 
 const PROFILE = {
     name: "Mandeep Singh",
-    role: "WordPress Plugin Developer | PHP Web Developer",
+    role: "WordPress Developer | PHP Web Developer",
     location: "Rajpura, Punjab",
     phone: "+91 7814030215",
     email: "deep7197@gmail.com",
     linkedin: "https://www.linkedin.com/in/mandeep-singh-50b52430a/",
     github: "https://github.com/deep7197",
-    summary: "I'm a WordPress and PHP Web Developer with experience building custom plugins, Elementor widgets, Divi modules, Gutenberg blocks, REST APIs, and web applications. I enjoy solving complex problems, learning new technologies, and building scalable, user-friendly applications.",
+    summary: "I'm a WordPress and PHP Web Developer with experience building custom plugins and Theme, Elementor widgets, Divi modules, Gutenberg blocks, REST APIs, and web applications. I enjoy solving complex problems, learning new technologies, and building scalable, user-friendly applications.",
     resume: "assets/resume/MandeepSinghResume.pdf"
 };
 
@@ -38,7 +38,7 @@ const EXPERIENCE = [
         ]
     },
     {
-        title: "WordPress Plugin Developer",
+        title: "WordPress Developer",
         company: "CoolPlugins",
         companyUrl: "https://www.coolplugins.net/",
         place: "Mohali, Punjab",
@@ -48,7 +48,7 @@ const EXPERIENCE = [
             "Built custom addons and extensions for the Elementor and Divi page builders.",
             "Created Elementor widgets and Divi modules with responsive, easy-to-use controls.",
             "Added and maintained features in event management plugins, including event handling and scheduling.",
-            "Wrote and maintained custom WordPress plugins focused on performance, scalability and reusable code.",
+            "Wrote and maintained custom WordPress plugins & Theme focused on performance, scalability and reusable code.",
             "Worked daily with WordPress hooks, REST APIs, AJAX, custom post types and the Settings API.",
             "Integrated chatbots and built custom Gutenberg block plugins for WordPress sites."
         ]
