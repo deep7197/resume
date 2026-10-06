@@ -163,6 +163,31 @@ function buildScene(page) {
     grid.material.opacity = 0.35;
     scene.add(grid);
 
+    // Recolor the scene to match the page theme (additive glow only works on dark)
+    const starColors = [];
+    for (let i = 0; i < count; i++) starColors.push(col[i * 3] < 0.5 ? 0 : 1);
+    function applyTheme() {
+        const light = document.documentElement.dataset.theme === "light";
+        const a = new THREE.Color(light ? 0x3a3fe0 : 0x3df2ff);
+        const b = new THREE.Color(light ? 0x9333ea : 0xa35cff);
+        starColors.forEach((which, i) => {
+            const c = which === 0 ? a : b;
+            col.set([c.r, c.g, c.b], i * 3);
+        });
+        starGeo.attributes.color.needsUpdate = true;
+        stars.material.blending = light ? THREE.NormalBlending : THREE.AdditiveBlending;
+        stars.material.opacity = light ? 0.6 : 0.85;
+        stars.material.needsUpdate = true;
+        outer.material.color.set(light ? 0x3a3fe0 : 0x3df2ff);
+        inner.material.color.set(light ? 0x9333ea : 0xa35cff);
+        outer.material.opacity = light ? 0.4 : 0.55;
+        scene.fog.color.set(light ? 0xeef0fa : 0x05060f);
+        grid.material.opacity = light ? 0.22 : 0.35;
+        grid.material.color.set(light ? 0x6b72d6 : 0xffffff);
+    }
+    applyTheme();
+    window.addEventListener("msr-theme", applyTheme);
+
     let mx = 0, my = 0, scrollY = 0, baseScale = 1;
     window.addEventListener("pointermove", e => {
         mx = e.clientX / window.innerWidth - 0.5;

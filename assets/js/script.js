@@ -145,12 +145,35 @@ function createNav(page) {
     });
     inner.appendChild(ul);
 
+    inner.appendChild(createThemeToggle());
+
     const dl = link(PROFILE.resume, "Download resume", "msr_btn msr_btn_small");
     dl.setAttribute("download", "MandeepSinghResume.pdf");
     inner.appendChild(dl);
 
     nav.appendChild(inner);
     return nav;
+}
+
+function createThemeToggle() {
+    const root = document.documentElement;
+    const btn = el("button", "msr_theme_toggle");
+    btn.type = "button";
+    const sync = () => {
+        const light = root.dataset.theme === "light";
+        btn.replaceChildren(icon(light ? "fa-solid fa-moon" : "fa-solid fa-sun"));
+        btn.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
+        btn.title = light ? "Dark mode" : "Light mode";
+    };
+    btn.addEventListener("click", () => {
+        const next = root.dataset.theme === "light" ? "dark" : "light";
+        root.dataset.theme = next;
+        try { localStorage.setItem("msr-theme", next); } catch (e) { /* storage blocked */ }
+        sync();
+        window.dispatchEvent(new CustomEvent("msr-theme"));
+    });
+    sync();
+    return btn;
 }
 
 function createFooter() {

@@ -438,53 +438,109 @@ a.msr_contact_value:hover { color: var(--accent); text-decoration: underline; }
    Futuristic layer: 3D scene, glass, neon, tilt, reveal
    ===================================================== */
 
+/* Theme tokens: dark is the default, light is set with data-theme="light" on <html> */
 :root {
     --bg: #05060f;
+    --bg-rgb: 5, 6, 15;
+    --bg-glow: #101240;
     --surface: rgba(16, 18, 44, .62);
     --ink: #eaf0ff;
     --muted: #9ba3cf;
     --line: rgba(120, 140, 255, .22);
     --accent: #3df2ff;
     --accent2: #a35cff;
+    --glow-rgb: 61, 242, 255;
+    --violet-rgb: 163, 92, 255;
     --accent-ink: #04101a;
     --accent-soft: rgba(61, 242, 255, .12);
     --code-bg: rgba(5, 6, 15, .85);
+    --name-start: #ffffff;
+    --photo-bg: #0a0c24;
     --radius: 16px;
     color-scheme: dark;
 }
 
-body.msr_body { background: radial-gradient(ellipse at 20% 0%, #101240 0%, var(--bg) 55%); }
+:root[data-theme="light"] {
+    --bg: #eef0fa;
+    --bg-rgb: 238, 240, 250;
+    --bg-glow: #d9ddf7;
+    --surface: rgba(255, 255, 255, .72);
+    --ink: #12142b;
+    --muted: #4a5080;
+    --line: rgba(60, 70, 170, .2);
+    --accent: #3a3fe0;
+    --accent2: #9333ea;
+    --glow-rgb: 58, 63, 224;
+    --violet-rgb: 147, 51, 234;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(58, 63, 224, .1);
+    --code-bg: rgba(18, 20, 43, .94);
+    --name-start: #12142b;
+    --photo-bg: #dfe3fa;
+    color-scheme: light;
+}
+
+/* The profile panel stays a dark "screen" in both themes */
+.msr_hud {
+    --ink: #eaf0ff;
+    --muted: #9ba3cf;
+    --accent: #3df2ff;
+    --accent2: #a35cff;
+    --line: rgba(120, 140, 255, .22);
+    --accent-soft: rgba(61, 242, 255, .12);
+}
+
+/* Theme toggle */
+.msr_theme_toggle {
+    flex: none;
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .3s ease;
+}
+.msr_theme_toggle:hover { border-color: var(--accent); box-shadow: 0 0 16px -4px var(--accent); transform: rotate(20deg); }
+
+body.msr_body, .msr_nav, .msr_footer { transition: background-color .4s ease, color .4s ease; }
+
+body.msr_body { background: radial-gradient(ellipse at 20% 0%, var(--bg-glow) 0%, var(--bg) 55%); }
 
 #msr_bg { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; }
 
 .msr_nav, .msr_main_container, .msr_footer { position: relative; z-index: 1; }
-.msr_nav { position: sticky; z-index: 10; background: rgba(5, 6, 15, .55); }
+.msr_nav { position: sticky; z-index: 10; background: rgba(var(--bg-rgb), .6); }
 
 .msr_glow {
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background: radial-gradient(420px circle at var(--mx, 70%) var(--my, 30%), rgba(61, 242, 255, .10), transparent 65%);
+    background: radial-gradient(420px circle at var(--mx, 70%) var(--my, 30%), rgba(var(--glow-rgb), .10), transparent 65%);
 }
 
 /* Name: gradient neon text */
 .msr_hero_name {
-    background: linear-gradient(100deg, #fff 10%, var(--accent) 50%, var(--accent2) 95%);
+    background: linear-gradient(100deg, var(--name-start) 10%, var(--accent) 50%, var(--accent2) 95%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
-    filter: drop-shadow(0 0 22px rgba(61, 242, 255, .25));
+    filter: drop-shadow(0 0 22px rgba(var(--glow-rgb), .25));
     min-height: 1.1em;
 }
-.msr_hero_role { color: var(--accent); text-shadow: 0 0 18px rgba(61, 242, 255, .5); }
+.msr_hero_role { color: var(--accent); text-shadow: 0 0 18px rgba(var(--glow-rgb), .5); }
 .msr_page_head h1 {
-    background: linear-gradient(100deg, #fff, var(--accent) 60%, var(--accent2));
+    background: linear-gradient(100deg, var(--name-start), var(--accent) 60%, var(--accent2));
     -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 
 /* Buttons: neon glow */
-.msr_btn { background: linear-gradient(100deg, var(--accent), #5b8cff); border: 0; color: var(--accent-ink); box-shadow: 0 0 22px -4px rgba(61, 242, 255, .7); }
-.msr_btn:hover { box-shadow: 0 0 34px 0 rgba(61, 242, 255, .85); }
+.msr_btn { background: linear-gradient(100deg, var(--accent), #5b8cff); border: 0; color: var(--accent-ink); box-shadow: 0 0 22px -4px rgba(var(--glow-rgb), .7); }
+.msr_btn:hover { box-shadow: 0 0 34px 0 rgba(var(--glow-rgb), .85); }
 .msr_btn_ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); box-shadow: none; }
 .msr_btn_ghost:hover { border-color: var(--accent); box-shadow: 0 0 22px -6px var(--accent); }
 .msr_nav_links a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); }
-.msr_brand { text-shadow: 0 0 16px rgba(61, 242, 255, .45); }
+.msr_brand { text-shadow: 0 0 16px rgba(var(--glow-rgb), .45); }
 
 /* Glass cards with 3D tilt and a light that follows the pointer */
 .msr_panel, .msr_contact_item, .msr_skill_group, .msr_job_body {
@@ -502,16 +558,16 @@ body.msr_body { background: radial-gradient(ellipse at 20% 0%, #101240 0%, var(-
     transform-style: preserve-3d;
     position: relative;
 }
-.msr_tilt:hover { border-color: rgba(61, 242, 255, .55); box-shadow: 0 20px 50px -20px rgba(61, 242, 255, .45); }
+.msr_tilt:hover { border-color: rgba(var(--glow-rgb), .55); box-shadow: 0 20px 50px -20px rgba(var(--glow-rgb), .45); }
 .msr_tilt:not(.msr_hero_visual)::after {
     content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .25s;
-    background: radial-gradient(260px circle at var(--px, 50%) var(--py, 50%), rgba(163, 92, 255, .18), transparent 70%);
+    background: radial-gradient(260px circle at var(--px, 50%) var(--py, 50%), rgba(var(--violet-rgb), .18), transparent 70%);
 }
 .msr_tilt:hover::after { opacity: 1; }
 
-.msr_chip { background: rgba(61, 242, 255, .06); border-color: var(--line); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.msr_chip { background: rgba(var(--glow-rgb), .06); border-color: var(--line); transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
 .msr_chip:hover { transform: translateY(-3px) scale(1.04); border-color: var(--accent); box-shadow: 0 0 16px -4px var(--accent); }
-.msr_chip_strong { background: linear-gradient(100deg, rgba(61, 242, 255, .18), rgba(163, 92, 255, .22)); }
+.msr_chip_strong { background: linear-gradient(100deg, rgba(var(--glow-rgb), .18), rgba(var(--violet-rgb), .22)); }
 
 .msr_contact_item i { box-shadow: 0 0 18px -2px var(--accent); color: var(--accent); transform: translateZ(30px); }
 
@@ -523,11 +579,11 @@ body.msr_body { background: radial-gradient(ellipse at 20% 0%, #101240 0%, var(-
     background: conic-gradient(from 0deg, var(--accent), var(--accent2), transparent 40%, var(--accent));
     animation: msr_spin 6s linear infinite;
 }
-.msr_photo img { position: relative; border-radius: calc(var(--radius) - 3px); max-width: none; width: 100%; background: #0a0c24; }
+.msr_photo img { position: relative; border-radius: calc(var(--radius) - 3px); max-width: none; width: 100%; background: var(--photo-bg); }
 .msr_photo::after {
     content: ""; position: absolute; left: 3px; right: 3px; height: 3px; top: 0;
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    box-shadow: 0 0 20px 4px rgba(61, 242, 255, .6);
+    box-shadow: 0 0 20px 4px rgba(var(--glow-rgb), .6);
     animation: msr_scan 3.6s ease-in-out infinite;
 }
 .msr_hud {
@@ -545,7 +601,7 @@ body.msr_body { background: radial-gradient(ellipse at 20% 0%, #101240 0%, var(-
 .msr_reveal.msr_in { opacity: 1; translate: 0 0; filter: none; }
 
 /* Footer and social */
-.msr_footer { background: rgba(5, 6, 15, .55); backdrop-filter: blur(10px); border-top-color: var(--line); }
+.msr_footer { background: rgba(var(--bg-rgb), .6); backdrop-filter: blur(10px); border-top-color: var(--line); }
 .msr_social_links a:hover { box-shadow: 0 0 18px var(--accent); }
 
 @media (max-width: 860px) {
@@ -592,9 +648,9 @@ body.msr_body { background: radial-gradient(ellipse at 20% 0%, #101240 0%, var(-
     display: grid;
     place-items: center;
     border-radius: 12px;
-    border: 1px solid rgba(61, 242, 255, .45);
-    background: linear-gradient(135deg, rgba(61, 242, 255, .16), rgba(163, 92, 255, .22));
-    box-shadow: 0 0 22px -6px var(--accent), inset 0 0 16px rgba(61, 242, 255, .1);
+    border: 1px solid rgba(var(--glow-rgb), .45);
+    background: linear-gradient(135deg, rgba(var(--glow-rgb), .16), rgba(var(--violet-rgb), .22));
+    box-shadow: 0 0 22px -6px var(--accent), inset 0 0 16px rgba(var(--glow-rgb), .1);
     backdrop-filter: blur(6px);
     font-family: var(--font-head);
     font-weight: 700;
@@ -616,8 +672,8 @@ body.msr_body { background: radial-gradient(ellipse at 20% 0%, #101240 0%, var(-
 .msr_job.msr_reveal.msr_in .msr_job_body { transform: perspective(1100px) rotateY(0) translateZ(0); }
 .msr_job.msr_reveal.msr_in .msr_job_body:hover {
     transform: perspective(1100px) rotateY(-3deg) translateZ(24px);
-    border-color: rgba(61, 242, 255, .55);
-    box-shadow: 0 24px 50px -20px rgba(61, 242, 255, .5);
+    border-color: rgba(var(--glow-rgb), .55);
+    box-shadow: 0 24px 50px -20px rgba(var(--glow-rgb), .5);
 }
 
 .msr_job::before {
@@ -633,7 +689,7 @@ body.msr_body { background: radial-gradient(ellipse at 20% 0%, #101240 0%, var(-
 }
 
 /* Chips get a raised, pressable feel */
-.msr_chip { box-shadow: 0 2px 0 rgba(61, 242, 255, .18); }
+.msr_chip { box-shadow: 0 2px 0 rgba(var(--glow-rgb), .18); }
 .msr_chip:hover { transform: translateY(-4px) rotateX(12deg) scale(1.05); }
 
 @media (max-width: 640px) {
