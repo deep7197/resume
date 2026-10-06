@@ -69,6 +69,9 @@ function scrambleText(node, finalText) {
     const glyphs = "!<>-_/[]{}=+*^?#01";
     const total = 36;
     let frame = 0;
+    // Lock the final height so scrambled glyphs of other widths cannot shift the hero
+    node.textContent = finalText;
+    node.style.minHeight = node.offsetHeight + "px";
     const timer = setInterval(() => {
         const settled = Math.floor((frame / total) * finalText.length);
         let out = "";

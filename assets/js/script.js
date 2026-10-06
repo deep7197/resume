@@ -23,6 +23,7 @@ const EXPERIENCE = [
     {
         title: "Senior Web Developer",
         company: "Erginous Technologies",
+        companyUrl: "https://erginous.com/",
         place: "Rajpura, India",
         period: "09/2025 - 09/2026",
         duration: "1 year",
@@ -486,14 +487,18 @@ function typeLetterByLetter(element, text, speed) {
         element.textContent = text;
         return;
     }
-    // Reserve the final height so the page does not jump while typing
-    element.style.minHeight = "";
-    let index = 0;
-    function typeNextChar() {
-        if (index < text.length) {
-            element.textContent += text.charAt(index++);
-            setTimeout(typeNextChar, speed);
-        }
-    }
-    typeNextChar();
+    // Lay out the full text first and lock its height, so nothing around it moves while typing
+    element.textContent = text;
+    const ready = document.fonts ? document.fonts.ready : Promise.resolve();
+    ready.then(() => {
+        element.style.minHeight = element.offsetHeight + "px";
+        element.textContent = "";
+        let index = 0;
+        (function typeNextChar() {
+            if (index < text.length) {
+                element.textContent += text.charAt(index++);
+                setTimeout(typeNextChar, speed);
+            }
+        })();
+    });
 }
