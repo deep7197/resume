@@ -55,7 +55,13 @@ const EXPERIENCE = [
     }
 ];
 
-const PROJECTS = ["LC HoverPeek", "LC Kit for Elementor", "MS Gallery for Divi", "Botisst AI Chat Assistant", "Blockive Premium Addon"];
+const PROJECTS = [
+    { name: "LC HoverPeek", type: "WordPress plugin", url: "https://wordpress.org/plugins/lc-hoverpeek/" },
+    { name: "LC Kit for Elementor", type: "Elementor widgets", url: "https://wordpress.org/plugins/lc-addons-kit-for-elementor/" },
+    { name: "MS Gallery for Divi", type: "Divi modules", url: "https://wordpress.org/plugins/ms-gallery-for-divi-lite/" },
+    { name: "Botisst AI Chat Assistant", type: "AI chatbot plugin", url: "https://wordpress.org/plugins/botisst-ai-chat-assistant/" },
+    { name: "Blockive Premium Addon", type: "Gutenberg blocks", url: "https://wordpress.org/plugins/blockive-premium-addon-for-block/" }
+];
 
 const SKILLS = [
     { group: "Backend", items: ["PHP", "Laravel", "CodeIgniter", "MySQL", "REST API Integration", "Plugin/Theme Architecture"] },
@@ -378,10 +384,21 @@ function createAboutSection() {
 
     // Projects
     const proj = section("More projects");
-    proj.appendChild(el("p", "msr_muted", "Plugins I helped build at CoolPlugins, covering Elementor widgets, Divi modules, Gutenberg blocks, AI and API integrations, responsive controls and advanced editor features."));
-    const chips = el("ul", "msr_chips");
-    PROJECTS.forEach(name => chips.appendChild(el("li", "msr_chip msr_chip_strong", name)));
-    proj.appendChild(chips);
+    const projIntro = el("p", "msr_muted");
+    projIntro.appendChild(document.createTextNode("Contributed to live WordPress.org plugins, developing custom Elementor widgets, Divi modules, and Gutenberg blocks. Implemented AI and API integrations, responsive design controls, and advanced editor functionality to enhance usability, flexibility, and performance."));
+    proj.appendChild(projIntro);
+    const cards = el("ul", "msr_plugin_grid");
+    PROJECTS.forEach(p => {
+        const li = el("li", "msr_plugin_card");
+        const title = el("strong");
+        if (p.url) title.appendChild(link(p.url, p.name, "msr_link", true));
+        else title.appendChild(document.createTextNode(p.name));
+        li.appendChild(title);
+        li.appendChild(el("span", "msr_muted_block", p.type));
+        if (p.url) li.appendChild(link(p.url, "View on WordPress.org", "msr_link msr_plugin_org", true));
+        cards.appendChild(li);
+    });
+    proj.appendChild(cards);
     wrap.appendChild(proj);
 
     // Skills

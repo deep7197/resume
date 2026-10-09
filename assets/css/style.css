@@ -333,6 +333,18 @@ a { color: inherit; }
 
 .msr_chip_strong { background: var(--accent-soft); border-color: transparent; font-weight: 500; }
 
+.msr_plugin_grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.msr_plugin_card {
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    transition: transform .2s ease, border-color .2s ease;
+}
+.msr_plugin_org { display: inline-block; margin-top: 8px; font-size: .9rem; }
+.msr_plugin_card:hover { transform: translateY(-3px); border-color: var(--accent); }
+
 .msr_skill_grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 40px; }
 .msr_skill_group h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 12px; }
 .msr_section > .msr_muted { margin-bottom: 16px; max-width: 65ch; }
